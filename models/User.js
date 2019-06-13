@@ -21,17 +21,11 @@ const UserSchema = new Schema({
         default: true
     },
     is_admin:{
-        type: Boolean,
-        default: false
-    },
-    created_date:{
-        type: Date,
-        default: Date.now
-    },
-    updated_date:{
-        type: Date,
-        default: Date.now
+        type: Boolean
     }
+},
+{
+    timestamps: true
 })
 
 //exporting model

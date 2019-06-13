@@ -32,17 +32,27 @@ router.get('/:id',(req,res) => {
 //@access Public
 router.post('/',(req,res) => {
     //creating user object
+    
     const newUser = new User({
         fname: req.body.fname,
         email: req.body.email,
-        is_superadmin: true
+        is_admin: req.body.is_admin ? true : false
     })
 
-    newUser.save().then(users => {
-        res.json({data:users,success:true,msg:'Data saved successfully'})
+    User.findOne({email:req.body.email}).then(users => {
+            if(users){
+                res.json({data:users.email,success:false,msg:'Email is already exist.'})
+            }else{
+                newUser.save().then(users => {
+                    res.json({data:users,success:true,msg:'Data saved successfully'})
+                }).catch(err => {
+                    res.json({data:null,success:false,msg:err})
+                });
+            }
     }).catch(err => {
         res.json({data:null,success:false,msg:err})
-    });
+    })
+    
 })
 
 //@route PUT api/users/:id
