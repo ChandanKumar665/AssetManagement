@@ -40,6 +40,7 @@ router.post('/',(req,res) => {
     })
 
     User.findOne({email:req.body.email}).then(users => {
+        
             if(users){
                 res.json({data:users.email,success:false,msg:'Email is already exist.'})
             }else{
@@ -62,15 +63,27 @@ router.put('/:id',(req,res) => {
     var id = req.params.id;
     const newData = {
         fname:req.body.fname,
-        email:req.body.email
+        email:req.body.email,
+    is_admin: !req.body.is_admin === undefined ? true : false
     }
 
     User.findById(id).then(user => {
-        user.updateOne(newData,{new:true}).then(result => {
-            res.json({data:result,success:true,msg:'Data updated successfully.'})
+        //checking email
+        User.findOne({email:newData.email}).then(checkUser => {
+            console.log(checkUser)
+            if(checkUser){
+                res.json({data:checkUser.email,success:false,msg:'Email is already exist.'})
+            }else{
+                console.log(newData)
+                User.updateOne(newData,{new:true}).then(result => {
+                    res.json({data:result,success:true,msg:'Data updated successfully.'})
+                }).catch(err => {
+                            res.json({data:null,success:false,msg:err})
+                    })
+            }
         }).catch(err => {
-                    res.json({data:null,success:false,msg:err})
-            })
+            res.json({data:null,success:false,msg:err})
+        })
     }).catch(err => {
                 res.json({data:null,success:false,msg:err})
         })

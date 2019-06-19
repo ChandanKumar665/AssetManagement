@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const server = express();
 const cors = require('cors');
+// const fs = require('fs')
 
 //defining routes
 const users = require('./routes/api/v1/users');
