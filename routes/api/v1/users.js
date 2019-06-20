@@ -64,7 +64,7 @@ router.put('/:id',(req,res) => {
     const newData = {
         fname:req.body.fname,
         email:req.body.email,
-    is_admin: !req.body.is_admin === undefined ? true : false
+        is_admin: !req.body.is_admin === undefined ? true : false
     }
 
     User.findById(id).then(user => {
@@ -75,7 +75,7 @@ router.put('/:id',(req,res) => {
                 res.json({data:checkUser.email,success:false,msg:'Email is already exist.'})
             }else{
                 console.log(newData)
-                User.updateOne(newData,{new:true}).then(result => {
+                User.findByIdAndUpdate(id,newData,{new:true}).then(result => {
                     res.json({data:result,success:true,msg:'Data updated successfully.'})
                 }).catch(err => {
                             res.json({data:null,success:false,msg:err})
