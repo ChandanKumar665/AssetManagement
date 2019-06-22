@@ -69,21 +69,29 @@ router.put('/:id',(req,res) => {
 
     User.findById(id).then(user => {
         //checking email
-        User.findOne({email:newData.email}).then(checkUser => {
-            console.log(checkUser)
-            if(checkUser){
-                res.json({data:checkUser.email,success:false,msg:'Email is already exist.'})
-            }else{
-                console.log(newData)
-                User.findByIdAndUpdate(id,newData,{new:true}).then(result => {
-                    res.json({data:result,success:true,msg:'Data updated successfully.'})
-                }).catch(err => {
-                            res.json({data:null,success:false,msg:err})
-                    })
-            }
-        }).catch(err => {
-            res.json({data:null,success:false,msg:err})
-        })
+        if(newData.email != user.email){
+            User.findOne({email:newData.email}).then(checkUser => {
+                // console.log(checkUser)
+                if(checkUser){
+                    res.json({data:checkUser.email,success:false,msg:'Email is already exist.'})
+                }else{
+                    // console.log(newData)
+                    User.findByIdAndUpdate(id,newData,{new:true}).then(result => {
+                        res.json({data:result,success:true,msg:'Data updated successfully.'})
+                    }).catch(err => {
+                                res.json({data:null,success:false,msg:err})
+                        })
+                }
+            }).catch(err => {
+                res.json({data:null,success:false,msg:err})
+            })
+        }else{
+            User.findByIdAndUpdate(id,newData,{new:true}).then(result => {
+                res.json({data:result,success:true,msg:'Data updated successfully.'})
+            }).catch(err => {
+                        res.json({data:null,success:false,msg:err})
+                })
+        }
     }).catch(err => {
                 res.json({data:null,success:false,msg:err})
         })

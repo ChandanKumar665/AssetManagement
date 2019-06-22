@@ -14,36 +14,28 @@ class EmployeeList extends Component{
             modal:false,
             name:'',
             email:'',
-            id:''
+            id:'',
+            isOpen:false
         }
-
-        this.submitHandler = this.submitHandler.bind(this);
+        this.toggle = this.toggle.bind(this);
     }
 
-    changeHandler = (e) => {
-        this.setState({
-            [e.target.name]:e.target.value
-        })
+    // changeHandler = (e) => {
+    //     this.setState({
+    //         [e.target.name]:e.target.value
+    //     })
+    //     e.preventDefault()
+    // }
+
+
+    toggle = (e) => {
         e.preventDefault()
-    }
-
-    submitHandler = (e) => {
-        e.preventDefault();
-        console.log(this.state);
-        var updateObj = {
-            fname:this.state.name,
-            email:this.state.email
-        }
-        const id = this.state.id
-        axios.put(`http://localhost:4000/api/v1/users/${id}`,updateObj)
-        .then(response => {
-            console.log('updated')
-        }).catch(err => {
-            console.log(err)
+        this.setState({
+            isOpen:!this.state.isOpen,
+            name: e.target.name,
+            id:e.target.id
         })
-
     }
-
 
     componentDidMount = () => {
         axios.get('http://localhost:4000/api/v1/users')
@@ -63,11 +55,10 @@ class EmployeeList extends Component{
             return (
                
                 <div className="container">
-                    <button className="btn">
-                        <Link to={{pathname:`/create` }}>
-                            Add +
-                        </Link>
-                    </button>
+                    <Link to={{pathname:`/create` }} className="btn btn-primary">
+                        Add +
+                    </Link>
+                
                     <div></div>
                     <Table dark border="1">
                         <thead>
@@ -89,6 +80,9 @@ class EmployeeList extends Component{
                                         <button className="btn">
                                             <Link to={{pathname:`/create`,state:{id:item._id} } }>
                                                 Edit
+                                            </Link> | 
+                                            <Link to='' name={item.fname} id={item._id} onClick={this.toggle}>
+                                                 Delete
                                             </Link>
                                         </button>  
                                         </td>
@@ -97,7 +91,18 @@ class EmployeeList extends Component{
                             }
                         </tbody>
                     </Table>
-                    
+                    <Modal isOpen={this.state.isOpen} toggle={this.toggle} className=''>
+                        <ModalHeader toggle={this.toggle}>Confirm ?</ModalHeader>
+                        <ModalBody>
+                            Are you sure you want to delete <b>{this.state.name}</b> record ?
+                        </ModalBody>
+                        <ModalFooter>
+                                <Link to={{pathname:`/delete`,state:{id:this.state.id}}} className="btn btn-primary">
+                                    Delete
+                                </Link>
+                            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                        </ModalFooter>
+                    </Modal>
                 </div>
            
             )

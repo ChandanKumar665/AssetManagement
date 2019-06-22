@@ -3,6 +3,7 @@ import style from '../style.css';
 import axios from 'axios';
 import { NotificationManager} from 'react-notifications'
 import {Alert} from 'reactstrap';
+import { Redirect } from 'react-router';
 
 class AddEmployee extends Component {
     constructor(props){
@@ -44,6 +45,7 @@ class AddEmployee extends Component {
                 email:response.data.data.email,
                 is_admin:response.data.data.is_admin ? '1' : '0'
             })
+            return <Redirect to="/"></Redirect>
         }).catch(err => {
             console.log(err)
         })

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const server = express();
 const cors = require('cors');
-// const fs = require('fs')
+const fs = require('fs')
 
 //defining routes
 const users = require('./routes/api/v1/users');
@@ -27,3 +27,6 @@ server.use('/api/v1/users',users);
 const port = process.env.PORT || 4000
 
 server.listen(port,() => console.log(`server is started at the ${port}`));
+// fs.open('index.txt','w',function(err,file){
+//     console.log(file);
+// })
