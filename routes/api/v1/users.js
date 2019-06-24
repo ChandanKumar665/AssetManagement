@@ -64,7 +64,7 @@ router.put('/:id',(req,res) => {
     const newData = {
         fname:req.body.fname,
         email:req.body.email,
-        is_admin: !req.body.is_admin === undefined ? true : false
+        is_admin: req.body.is_admin ? true : false
     }
 
     User.findById(id).then(user => {
