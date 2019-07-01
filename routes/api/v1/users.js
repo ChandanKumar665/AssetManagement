@@ -8,7 +8,7 @@ const User = require('../../../models/User');
 //@desc  Get all users
 //@access Public
 router.get('/',(req,res) => {
-    User.find().then(users => {
+    User.find().sort({createdAt:-1}).then(users => {
         res.json({data:users,success:true,msg:'success'})
     }).catch(err => {
         res.json({data:null,success:false,msg:err})

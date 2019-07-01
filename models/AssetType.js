@@ -3,23 +3,19 @@ const Schema = mongoose.Schema;
 
 //creating schema
 const AssetTypeSchema = new Schema({
-    asset_type_name:{
+    asset_type:{
         type: String,
         required: true
     },
     brand:{
       type: String,
       required: true  
-    },
-    created_date:{
-        type: Date,
-        default: Date.now
-    },
-    updated_date:{
-        type: Date,
-        default: Date.now
     }
-})
+    },
+    {
+        timestamps: true
+    }
+    )
 
 //exporting model
-module.exports = AssetType = mongoose.model('asset',AssetTypeSchema); 
+module.exports = AssetType = mongoose.model('asset_types',AssetTypeSchema); 

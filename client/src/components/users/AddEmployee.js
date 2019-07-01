@@ -1,8 +1,9 @@
 import React,{Component} from 'react';
 import axios from 'axios';
+import style from '../css/Index.css';
 // import { NotificationManager} from 'react-notifications'
 import {Alert} from 'reactstrap';
-import { Redirect } from 'react-router-dom';
+import { Redirect,Link } from 'react-router-dom';
 
 
 class AddEmployee extends Component {
@@ -11,7 +12,7 @@ class AddEmployee extends Component {
         this.state = {
             fname:'',
             email:'',
-            is_admin:'',
+            is_admin:'0',
             isOpen:false,
             res_msg:'',
             color:'primary',
@@ -64,6 +65,8 @@ class AddEmployee extends Component {
 
     formSubmit = (e) => {
         e.preventDefault()
+        //checking for empty field
+
         //post form submit
         var insertObj = {
             fname:this.state.fname,
@@ -84,7 +87,7 @@ class AddEmployee extends Component {
                             isOpen:!this.state.isOpen
                         })
                         // console.log('heyyyy')
-                        this.props.history.push('/')
+                        this.props.history.push('/users')
                     }else{
                         
                         // NotificationManager.info('Error');
@@ -109,7 +112,7 @@ class AddEmployee extends Component {
                         color:'success',
                         res_msg:users.data.msg
                     })
-                    this.props.history.push('/')
+                    this.props.history.push('/users')
                 }else{
                     
                     // NotificationManager.info('Error');
@@ -138,13 +141,16 @@ class AddEmployee extends Component {
                         {this.state.res_msg}
                     </Alert>
                 </div>
+                
                 <form onSubmit={this.formSubmit} >
-                    <label  className="mr-sm-2">Email address:</label>
-                    <input type="email" className="form-control mb-2 mr-sm-2" id="email" name="email" onChange={this.changeHandler} value={this.state.email}/>
-                    <label  className="mr-sm-2">Name:</label>
-                    <input type="text" className="form-control mb-2 mr-sm-2" name="fname" id="fname" onChange={this.changeHandler} value={this.state.fname}/>
+                    <label  className="mr-sm-2">Email address:&nbsp;<span className="mandatory">*</span></label>
+                    <input type="email" className="form-control mb-2 mr-sm-2" id="email" name="email" onChange={this.changeHandler} value={this.state.email} required/>
+                    <div className="invalid-feedback">Please fill out this field.</div>
+                    <label  className="mr-sm-2">Name:&nbsp;<span className="mandatory">*</span></label>
+                    <input type="text" className="form-control mb-2 mr-sm-2" name="fname" id="fname" onChange={this.changeHandler} value={this.state.fname} required/>
+                    <div className="invalid-feedback">Please fill out this field.</div>
                     <div className="form-group">
-                        <label className="form-check-label">is Admin:&nbsp;</label>
+                        <label className="form-check-label">is Admin:&nbsp;<span className="mandatory">*</span>&nbsp;</label>
                         <div className="form-check form-check-inline">
                             <input type="radio" className="form-check-input" name="is_admin" checked={this.state.is_admin === '1'} value='1' onChange={this.changeIsAdmin} />
                             <label className="form-check-label">Yes</label>
@@ -156,9 +162,13 @@ class AddEmployee extends Component {
                     </div>
                     <div>
                         <button type="submit" className="btn btn-primary mb-2">{this.state.btn_text}</button>
-                    </div>
-                    
+                    </div>   
                 </form>
+                <div>
+                    <Link to={{pathname:`/users`}}>
+                         Home
+                    </Link>
+                </div>
             </div>
         )
     }

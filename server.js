@@ -7,6 +7,8 @@ const fs = require('fs')
 
 //defining routes
 const users = require('./routes/api/v1/users');
+const assettypes = require('./routes/api/v1/assettypes');
+const assets = require('./routes/api/v1/assets');
 
 //body parser middleware
 server.use(bodyParser.json());
@@ -23,6 +25,8 @@ mongoose.connect(db_config,{useNewUrlParser:true}).then(()=>{
 
 // use routes
 server.use('/api/v1/users',users);
+server.use('/api/v1/assettypes',assettypes);
+server.use('/api/v1/assets',assets);
 
 const port = process.env.PORT || 4000
 

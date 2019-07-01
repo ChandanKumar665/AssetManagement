@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose');;
 const Schema = mongoose.Schema;
 
 //creating schema
@@ -7,23 +7,19 @@ const AssetSchema = new Schema({
         type: String,
         required: true
     },
+    model_no:{
+        type:String,
+        required:true
+    },
     asset_type_id:{
-        type: BigInt,
-        required: true
-    },
-    assigned_to:{
-        type: BigInt,
-        required: true
-    },
-    created_date:{
-        type: Date,
-        default: Date.now
-    },
-    updated_date:{
-        type: Date,
-        default: Date.now
+      type: String,
+      required: true  
     }
-})
+    },
+    {
+        timestamps: true
+    }
+    )
 
 //exporting model
-module.exports = Asset = mongoose.model('asset',AssetSchema); 
+module.exports = Asset = mongoose.model('assets',AssetSchema); 

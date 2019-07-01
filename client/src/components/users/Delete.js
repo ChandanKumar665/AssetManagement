@@ -32,7 +32,7 @@ class Delete extends Component {
                         isOpen:!this.state.isOpen,
                         res_msg:response.data.msg
                     })
-                    return <Redirect to="/"></Redirect>
+                    this.props.history.push('/users')
                 }else{
                     this.setState({
                         color:'danger',
@@ -46,7 +46,7 @@ class Delete extends Component {
         })
         }else{
             this.setState({
-                color:'red',
+                color:'danger',
                 isOpen:true,
                 res_msg:'something went wrong.'
             })

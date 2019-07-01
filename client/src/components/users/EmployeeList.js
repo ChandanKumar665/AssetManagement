@@ -21,29 +21,12 @@ class EmployeeList extends Component{
             color:'',
             msg:''
         }
-        // this.getData()
+    
         this.toggle = this.toggle.bind(this);
         this.onDismiss = this.onDismiss.bind(this);
-        // console.log(this.props)
-        // console.log(this.props.location.state.ms
-        // if(this.props.location.state){
-        //     // console.log(!this.state.isShowing)
-        //     this.setState({
-        //         msg:this.props.location.state.res_msg,
-        //         isShowing:!this.state.isShowing,
-        //         color:this.props.location.state.color
-        //     })
-        // }
-        // console.log(this.state)
+        
     }
 
-    //  getData = () => {
-    //      this.setState({
-    //         ck:'new msg'
-    //     },() => {
-    //         console.log('hiimnmnmn')
-    //     })
-    // }
 
     onDismiss = (e) => {
         e.preventDefault()
@@ -56,6 +39,7 @@ class EmployeeList extends Component{
 
     toggle = (e) => {
         e.preventDefault()
+        console.log(e.target.id)
         this.setState({
             isOpen:!this.state.isOpen,
             name: e.target.name,
@@ -76,10 +60,10 @@ class EmployeeList extends Component{
     }
 
     render(){
-        console.log(this.state)
         let result = this.state.data;
+        
             return (
-               
+              
                 <div className="container">
                      <div>
                         <Alert color={this.state.color} isOpen={this.state.isShowing} toggle={this.onDismiss} >
@@ -91,11 +75,17 @@ class EmployeeList extends Component{
                     </div>
                     <br></br>
                     <div>
-                        <Link to={{pathname:`/create` }} className="btn btn-primary">
+                        <Link to={{pathname:`/users/create` }} className="btn btn-primary">
                             Add +
                         </Link>
                     </div>
-                    <br></br><br></br>
+                    <br></br>
+                    <div>
+                        <Link to={{pathname:`/assets`}}>
+                            Show assets List
+                        </Link>
+                    </div>
+                    <br></br>
                     <Table dark border="1">
                         <thead>
                             <tr className="stripe-dark">
@@ -114,10 +104,10 @@ class EmployeeList extends Component{
                                         <td className="pa3" >{new Date(item.doj).toDateString()}</td>
                                         <td className="pa3">
                                 
-                                            <Link className="fas fa-edit" to={{pathname:`/create`,state:{id:item._id} } }>
+                                            <Link className="fas fa-edit" to={{pathname:`/users/create`,state:{id:item._id} } }>
                                             <span className="glyphicon glyphicon-envelope"></span>
                                                 Edit
-                                            </Link> | 
+                                            </Link> |  
                                             <Link to='' name={item.fname} id={item._id} onClick={this.toggle}>
                                                  Delete
                                             </Link>
@@ -134,7 +124,7 @@ class EmployeeList extends Component{
                             Are you sure you want to delete <b>{this.state.name}</b> record ?
                         </ModalBody>
                         <ModalFooter>
-                                <Link to={{pathname:`/delete`,state:{id:this.state.id}}} className="btn btn-primary">
+                                <Link to={{pathname:`/users/delete`,state:{id:this.state.id}}} className="btn btn-primary">
                                     Delete
                                 </Link>
                             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
