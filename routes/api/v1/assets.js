@@ -8,22 +8,18 @@ const AssetType = require('../../../models/AssetType');
 //@route GET api/users
 //@desc  Get all users
 //@access Public
-router.get('/',(req,res) => {
-    Asset.find().sort({createdAt:-1}).then(asset => {
+router.get('/',async (req,res) => {
+   await Asset.find().sort({createdAt:-1}).then(asset => {
         if(asset.length > 0){
             for(var i in asset){
-                // console.log('hiii')
                 var id = asset[i].asset_type_id;
                 // console.log(id)
-                AssetType.findById(id).then(assettype => {
-                    // console.log(assettype)
+                 AssetType.findById(id).then(assettype => {
                     asset[i].asset_type_name = assettype.asset_type
                 }).catch(err => {
                     console.log(err)
                 })
             }
-            // console.log('byyy')
-            // console.log(asset)
             res.json({data:asset,success:true,msg:'success'})
 
         }else{
