@@ -149,6 +149,9 @@ class AddEmployee extends Component {
                     <label  className="mr-sm-2">Name:&nbsp;<span className="mandatory">*</span></label>
                     <input type="text" className="form-control mb-2 mr-sm-2" name="fname" id="fname" onChange={this.changeHandler} value={this.state.fname} required/>
                     <div className="invalid-feedback">Please fill out this field.</div>
+                    <label  className="mr-sm-2">Password:&nbsp;<span className="mandatory">*</span></label>
+                    <input type="password" className="form-control mb-2 mr-sm-2" name="password" id="password" onChange={this.changeHandler} value={this.state.password} required/>
+                    
                     <div className="form-group">
                         <label className="form-check-label">is Admin:&nbsp;<span className="mandatory">*</span>&nbsp;</label>
                         <div className="form-check form-check-inline">

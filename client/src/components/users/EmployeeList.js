@@ -21,7 +21,7 @@ class EmployeeList extends Component{
             color:'',
             msg:''
         }
-    
+        // console.log("here")
         this.toggle = this.toggle.bind(this);
         this.onDismiss = this.onDismiss.bind(this);
         
@@ -50,7 +50,7 @@ class EmployeeList extends Component{
     componentDidMount = () => {
         axios.get('http://localhost:4000/api/v1/users')
         .then(response => {
-            // console.log(response)
+            console.log(response)
             this.setState({
                 data:response.data.data,
             })
@@ -61,7 +61,7 @@ class EmployeeList extends Component{
 
     render(){
         let result = this.state.data;
-        
+       
             return (
               
                 <div className="container">

@@ -3,12 +3,14 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const server = express();
 const cors = require('cors');
-const fs = require('fs')
+const fs = require('fs');
+const config = require('config');
 
 //defining routes
 const users = require('./routes/api/v1/users');
 const assettypes = require('./routes/api/v1/assettypes');
 const assets = require('./routes/api/v1/assets');
+const auth = require('./routes/api/v1/auth');
 
 //body parser middleware
 server.use(bodyParser.json());
@@ -16,7 +18,7 @@ server.use(bodyParser.json());
 server.use(cors());
 
 //db config
-const db_config = require('./config/keys').mongoURI;
+const db_config = config.get('mongoURI');
 
 //connect to mongo
 mongoose.connect(db_config,{useNewUrlParser:true}).then(()=>{
@@ -25,6 +27,7 @@ mongoose.connect(db_config,{useNewUrlParser:true}).then(()=>{
 
 // use routes
 server.use('/api/v1/users',users);
+server.use('/api/v1/auth',auth);
 server.use('/api/v1/assettypes',assettypes);
 server.use('/api/v1/assets',assets);
 
