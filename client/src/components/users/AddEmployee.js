@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import axios from 'axios';
-import style from '../css/Index.css';
+import style from '../Style/Index.css';
 // import { NotificationManager} from 'react-notifications'
 import {Alert} from 'reactstrap';
 import { Redirect,Link } from 'react-router-dom';
@@ -127,9 +127,6 @@ class AddEmployee extends Component {
                 console.log(err)
             })
         }
-
-
-       
     }
 
     render(){

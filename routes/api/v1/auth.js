@@ -1,3 +1,4 @@
+//login
 const express = require('express')
 const router = express.Router();
 const bcrypt = require('bcryptjs')
@@ -14,6 +15,7 @@ const User = require('../../../models/User');
 router.post('/',(req,res) => {
     const email = req.body.email;
     const password = req.body.password;
+    console.log(password)
     if(email ==  undefined || password == undefined){
         res.status(400).json({data:null,success:false,msg:'please fill all the fields.'})
     }

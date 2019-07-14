@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import uuid from 'uuid';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Table } from 'reactstrap';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {Alert} from 'reactstrap';
+import style from '../Style/Index.css';
 
 class EmployeeList extends Component{
     constructor(props){
@@ -19,12 +20,12 @@ class EmployeeList extends Component{
             isOpen:false,
             isShowing:false,
             color:'',
-            msg:''
+            msg:'',
+            isRedirectReqd: false
         }
-        // console.log("here")
         this.toggle = this.toggle.bind(this);
         this.onDismiss = this.onDismiss.bind(this);
-        
+        this.logout = this.logout.bind(this);
     }
 
 
@@ -39,7 +40,7 @@ class EmployeeList extends Component{
 
     toggle = (e) => {
         e.preventDefault()
-        console.log(e.target.id)
+        // console.log(e.target.id)
         this.setState({
             isOpen:!this.state.isOpen,
             name: e.target.name,
@@ -47,19 +48,43 @@ class EmployeeList extends Component{
         })
     }
 
+    logout = () => {
+        sessionStorage.setItem('userData',null);
+        sessionStorage.clear();
+        return <Redirect to={'/users'}/>
+    }
+
     componentDidMount = () => {
-        axios.get('http://localhost:4000/api/v1/users')
-        .then(response => {
-            console.log(response)
+        if(sessionStorage.getItem('userData')){
+            var user_data = JSON.parse(sessionStorage.getItem('userData'))
             this.setState({
-                data:response.data.data,
+                name:user_data.name
             })
-        }).catch(err => {
-            console.log(err)
-        })
+            axios.get('http://localhost:4000/api/v1/users')
+            .then(response => {
+                // console.log(response)
+                if(response.data.success){
+                    this.setState({
+                        data:response.data.data
+                    })
+                }else{
+                    console.log("Error")
+                }
+            }).catch(err => {
+                console.log(err)
+            })
+        }else{
+            this.setState({
+                isRedirectReqd:true
+            })
+        }  
     }
 
     render(){
+
+        if(this.state.isRedirectReqd){
+            return <Redirect to={'/login'}/>
+        }
         let result = this.state.data;
        
             return (
@@ -86,6 +111,14 @@ class EmployeeList extends Component{
                         </Link>
                     </div>
                     <br></br>
+                    <div className="row">
+                        <div className="col-lg-8">
+                            <label>Welcome <b>{this.state.name}</b></label>
+                        </div>
+                        <div className="col-lg-4">
+                            <button className="logout btn-danger" onClick={this.logout}>Logout</button>
+                        </div>
+                    </div>
                     <Table dark border="1">
                         <thead>
                             <tr className="stripe-dark">
