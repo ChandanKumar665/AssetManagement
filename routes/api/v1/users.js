@@ -33,8 +33,8 @@ router.get('/:id',(req,res) => {
 
 //@route POST api/users
 //@desc  Create an user
-//@access Private
-router.post('/', auth, (req,res) => {
+//@access Public
+router.post('/', (req,res) => {
     //creating user object
     
     const newUser = new User({
@@ -96,8 +96,8 @@ router.post('/', auth, (req,res) => {
 
 //@route PUT api/users/:id
 //@desc Update an user
-//@access Public
-router.put('/:id',(req,res) => {
+//@access Private
+router.put('/:id', auth, (req,res) => {
     var id = req.params.id;
     const newData = {
         fname:req.body.fname,
@@ -114,7 +114,7 @@ router.put('/:id',(req,res) => {
                     res.json({data:checkUser.email,success:false,msg:'Email is already exist.'})
                 }else{
                     // console.log(newData)
-                    User.findByIdAndUpdate(id,newData,{new:true}).then(result => {
+                    User.findByIdAndUpdate(id,newData,{new:true}).select('-password').then(result => {
                         res.json({data:result,success:true,msg:'Data updated successfully.'})
                     }).catch(err => {
                                 res.json({data:null,success:false,msg:err})

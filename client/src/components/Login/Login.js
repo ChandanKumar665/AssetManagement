@@ -35,26 +35,34 @@ export default class Login extends Component {
             email:this.state.email,
             password:this.state.password
         }
+        
+        try {
+            axios.post('http://localhost:4000/api/v1/auth',loginObj)
+            .then(response => {
+                console.log(response);
+                console.log('000000000000000')
+                if(response.data.success){
+                    // NotificationManager.success(users.data.msg,'Success');
+                    //setting session storage
+                    var user = response.data.user;
+                    sessionStorage.setItem('userData',JSON.stringify(user))
+                    sessionStorage.setItem('usersToken',response.data.token)
+                    this.setState({
+                        isRedirectReqd: true
+                    })
+                    
+                }else{
+                    console.log("Login error")
+                }  
+            }).catch(err => {
+                console.log('111111111111111111')
+                console.log(err)
+            })
+        } catch (error) {
+            console.log('some thing went wrong')
+        }
 
-        axios.post('http://localhost:4000/api/v1/auth',loginObj)
-        .then(response => {
-            // console.log(response)
-            if(response.data.success){
-                // NotificationManager.success(users.data.msg,'Success');
-                //setting session storage
-                var user = response.data.user;
-                sessionStorage.setItem('userData',JSON.stringify(user))
-                sessionStorage.setItem('usersToken',response.data.token)
-                this.setState({
-                    isRedirectReqd: true
-                })
-                
-            }else{
-                console.log("Login error")
-            }  
-        }).catch(err => {
-            console.log(err)
-        })
+      
     }
 
 

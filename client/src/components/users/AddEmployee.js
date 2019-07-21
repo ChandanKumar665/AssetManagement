@@ -16,6 +16,7 @@ class AddEmployee extends Component {
             isOpen:false,
             res_msg:'',
             color:'primary',
+            isRedirectReqd:false,
             btn_text : props.location.state === undefined ? 'Save' : 'Update',
             id: props.location.state === undefined ? '' : props.location.state.id
         }
@@ -38,21 +39,24 @@ class AddEmployee extends Component {
       }
 
     componentDidMount = () => {
-        if(this.state.id){
+        if(this.state.id && sessionStorage.getItem('userData')){
             //edit
-            axios.get(`http://localhost:4000/api/v1/users/${this.state.id}`)
-            
-        .then(response => {
-            // console.log(response)
-            this.setState({
-                fname:response.data.data.fname,
-                email:response.data.data.email,
-                is_admin:response.data.data.is_admin ? '1' : '0'
+            axios.get(`http://localhost:4000/api/v1/users/${this.state.id}`)   
+            .then(response => {
+                // console.log(response)
+                this.setState({
+                    fname:response.data.data.fname,
+                    email:response.data.data.email,
+                    is_admin:response.data.data.is_admin ? '1' : '0'
+                })
+                
+            }).catch(err => {
+                console.log(err)
             })
-            
-        }).catch(err => {
-            console.log(err)
-        })
+        } else {
+            this.setState({
+                isRedirectReqd:true
+            })
         }
         
     }  
@@ -71,14 +75,15 @@ class AddEmployee extends Component {
         var insertObj = {
             fname:this.state.fname,
             email:this.state.email,
-            is_admin: this.state.is_admin == '1' ? true: false
+            is_admin: this.state.is_admin == '1' ? true: false,
+            token: sessionStorage.getItem('usersToken')
         }
 
         if(this.state.id){
                 //update
                 axios.put(`http://localhost:4000/api/v1/users/${this.state.id}`,insertObj)
                 .then(users => {
-                    // console.log(users.data)
+                    console.log(users.data)
                     if(users.data.success){
                         // NotificationManager.success(users.data.msg,'Success');
                         this.setState({
@@ -130,7 +135,10 @@ class AddEmployee extends Component {
     }
 
     render(){
-        
+
+        // if(this.state.isRedirectReqd){
+        //     return <Redirect to={'/users/create'}/>
+        // }
         return (
             <div className="container">
                 <div>
@@ -146,8 +154,10 @@ class AddEmployee extends Component {
                     <label  className="mr-sm-2">Name:&nbsp;<span className="mandatory">*</span></label>
                     <input type="text" className="form-control mb-2 mr-sm-2" name="fname" id="fname" onChange={this.changeHandler} value={this.state.fname} required/>
                     <div className="invalid-feedback">Please fill out this field.</div>
-                    <label  className="mr-sm-2">Password:&nbsp;<span className="mandatory">*</span></label>
-                    <input type="password" className="form-control mb-2 mr-sm-2" name="password" id="password" onChange={this.changeHandler} value={this.state.password} required/>
+                    <div id="pass" style={{display: this.state.id ? 'none':''}}>
+                        <label  className="mr-sm-2">Password:&nbsp;<span className="mandatory">*</span></label>
+                        <input type="password" className="form-control mb-2 mr-sm-2" name="password" id="password" onChange={this.changeHandler} value={this.state.password} required/>
+                    </div>
                     
                     <div className="form-group">
                         <label className="form-check-label">is Admin:&nbsp;<span className="mandatory">*</span>&nbsp;</label>

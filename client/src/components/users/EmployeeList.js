@@ -7,6 +7,7 @@ import { Table } from 'reactstrap';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {Alert} from 'reactstrap';
 import style from '../Style/Index.css';
+import 'font-awesome/css/font-awesome.min.css';
 
 class EmployeeList extends Component{
     constructor(props){
@@ -15,6 +16,7 @@ class EmployeeList extends Component{
             data:[],
             modal:false,
             name:'',
+            globalName:'',
             email:'',
             id:'',
             isOpen:false,
@@ -46,19 +48,23 @@ class EmployeeList extends Component{
             name: e.target.name,
             id:e.target.id
         })
+        console.log(e.target.value)
+        console.log(this.state.name)
     }
 
     logout = () => {
         sessionStorage.setItem('userData',null);
         sessionStorage.clear();
-        return <Redirect to={'/users'}/>
+        this.setState({
+            isRedirectReqd:true
+        })
     }
 
     componentDidMount = () => {
         if(sessionStorage.getItem('userData')){
             var user_data = JSON.parse(sessionStorage.getItem('userData'))
             this.setState({
-                name:user_data.name
+                globalName:user_data.name
             })
             axios.get('http://localhost:4000/api/v1/users')
             .then(response => {
@@ -85,6 +91,7 @@ class EmployeeList extends Component{
         if(this.state.isRedirectReqd){
             return <Redirect to={'/login'}/>
         }
+
         let result = this.state.data;
        
             return (
@@ -113,7 +120,7 @@ class EmployeeList extends Component{
                     <br></br>
                     <div className="row">
                         <div className="col-lg-8">
-                            <label>Welcome <b>{this.state.name}</b></label>
+                            <label>Welcome <b>{this.state.globalName}</b></label>
                         </div>
                         <div className="col-lg-4">
                             <button className="logout btn-danger" onClick={this.logout}>Logout</button>
@@ -137,14 +144,12 @@ class EmployeeList extends Component{
                                         <td className="pa3" >{new Date(item.doj).toDateString()}</td>
                                         <td className="pa3">
                                 
-                                            <Link className="fas fa-edit" to={{pathname:`/users/create`,state:{id:item._id} } }>
-                                            <span className="glyphicon glyphicon-envelope"></span>
-                                                Edit
-                                            </Link> |  
-                                            <Link to='' name={item.fname} id={item._id} onClick={this.toggle}>
-                                                 Delete
+                                            <Link className="fa fa-pencil-square-o" to={{pathname:`/users/create`,state:{id:item._id} } }>
                                             </Link>
-                              
+                                            &nbsp;<span>&#124;</span>&nbsp;  
+                                            <Link to='' className="fa fa-trash-o" name={item.fname} id={item._id} onClick={this.toggle}>
+                                            </Link>
+                                            
                                         </td>
                                     </tr>
                                 )
