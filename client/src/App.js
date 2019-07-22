@@ -11,15 +11,17 @@ import AssetList from './components/Assets/AssetList';
 import AssetTypeList from './components/Assets/AssetTypeList';
 import AssetTypeCeate from './components/Assets/AssetTypeCeate';
 import AssetCreate from './components/Assets/AssetCreate';
-import Login from './components/Login/Login';
+import LoginForm from './components/Login/LoginForm';
+import TopNavBar from './components/Header/TopNavBar';
 
 function App() {
   return (
-    <div className="App">
-    <AppNavbar/>
+    <div className="App container">
+          
           <Router>
+              <TopNavBar/><p></p>
               <Switch>
-                <Route exact path="/login" component={Login}></Route>
+                <Route exact path="/login" component={LoginForm}></Route>
                 <Route exact path="/users" component={EmployeeList}></Route>
                 <Route exact path="/users/create" component={AddEmployee}></Route>
                 <Route exact path="/users/delete" component={Delete}></Route>

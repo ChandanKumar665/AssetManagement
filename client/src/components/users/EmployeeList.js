@@ -48,15 +48,18 @@ class EmployeeList extends Component{
             name: e.target.name,
             id:e.target.id
         })
-        console.log(e.target.value)
-        console.log(this.state.name)
     }
 
     logout = () => {
         sessionStorage.setItem('userData',null);
         sessionStorage.clear();
         this.setState({
-            isRedirectReqd:true
+            isRedirectReqd:true,
+            name:null,
+            globalName:null,
+            email:null,
+            id:null,
+            data:null
         })
     }
 

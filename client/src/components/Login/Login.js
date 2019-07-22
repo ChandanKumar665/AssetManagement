@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import style from '../Style/Index.css';
 import { Redirect,Link } from 'react-router-dom';
+// import LoginForm from './LoginForm';
+
 export default class Login extends Component {
 
     constructor(props){
@@ -19,7 +21,7 @@ export default class Login extends Component {
     }
 
     changeHandler = (e) => {
-       
+       console.log(e.target.value)
         this.setState({
             [e.target.name] : e.target.value
         })
@@ -64,7 +66,7 @@ export default class Login extends Component {
 
       
     }
-
+    
 
   render() {
 
@@ -74,26 +76,31 @@ export default class Login extends Component {
     if(sessionStorage.getItem('userData')){
         return <Redirect to={'/users'}/>
     }
-
+    
     return (
-        <div className="container">
         
-        <form onSubmit={this.formSubmit} >
-            <label  className="mr-sm-2">Email address:&nbsp;<span className="mandatory">*</span></label>
-            <input type="email" className="form-control mb-2 mr-sm-2" id="email" name="email" onChange={this.changeHandler} value={this.state.email} required/>
-            <div className="invalid-feedback">Please fill out this field.</div>
-            <label  className="mr-sm-2">Password:&nbsp;<span className="mandatory">*</span></label>
-            <input type="password" className="form-control mb-2 mr-sm-2" name="password" id="password" onChange={this.changeHandler} value={this.state.password} required/>
+        <div className="container">
+            {/* <LoginForm/> */}
+            <p></p>
+            {/* <div className="card">
+                <form onSubmit={this.formSubmit} className="login_form">
+                    <label  className="mr-sm-2">Email address:&nbsp;<span className="mandatory">*</span></label>
+                    <input type="email" className="form-control mb-2 mr-sm-2" id="email" name="email" onChange={this.changeHandler} value={this.state.email} required/>
+                    <div className="invalid-feedback">Please fill out this field.</div>
+                    <label  className="mr-sm-2">Password:&nbsp;<span className="mandatory">*</span></label>
+                    <input type="password" className="form-control mb-2 mr-sm-2" name="password" id="password" onChange={this.changeHandler} value={this.state.password} required/>
+                    <div>
+                        <button type="submit" className="btn btn-primary mb-2">Login</button>
+                    </div>   
+                </form>
+            </div>   */}
             <div>
-                <button type="submit" className="btn btn-primary mb-2">Login</button>
-            </div>   
-        </form>
-        <div>
-            <Link to={{pathname:`/login`}}>
-                 Home
-            </Link>
-        </div>
+                <Link to={{pathname:`/login`}}>
+                    Home
+                </Link>
+            </div>
     </div>
+        
     )
   }
 }

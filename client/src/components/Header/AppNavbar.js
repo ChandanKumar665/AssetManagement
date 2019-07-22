@@ -7,11 +7,7 @@ import {
     Nav,
     NavItem,
     NavLink,
-    Container,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem
+    Container
 } from 'reactstrap';
 
 class AppNavbar extends Component{
@@ -40,13 +36,15 @@ class AppNavbar extends Component{
                                     <NavItem>
                                         <NavLink href="https://github.com/chandankumar665">Github</NavLink>
                                     </NavItem>
+                                    <NavItem>
+                                        <NavLink href="#"><i className="fa fa-user"></i></NavLink>
+                                    </NavItem>
                                 </Nav>
                             </Collapse>
                         </Container>
                     </Navbar>
                 </div>
-
-        )
+                )
     }
 }
 

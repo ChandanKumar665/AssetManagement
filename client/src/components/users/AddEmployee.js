@@ -15,6 +15,7 @@ class AddEmployee extends Component {
             is_admin:'0',
             isOpen:false,
             res_msg:'',
+            password:'',
             color:'primary',
             isRedirectReqd:false,
             btn_text : props.location.state === undefined ? 'Save' : 'Update',
@@ -39,7 +40,7 @@ class AddEmployee extends Component {
       }
 
     componentDidMount = () => {
-        if(this.state.id && sessionStorage.getItem('userData')){
+        if(this.state.id && sessionStorage.getItem('userData') != null){
             //edit
             axios.get(`http://localhost:4000/api/v1/users/${this.state.id}`)   
             .then(response => {
@@ -72,18 +73,23 @@ class AddEmployee extends Component {
         //checking for empty field
 
         //post form submit
+        var headers = {
+            'Authorization' : sessionStorage.getItem('usersToken'),
+            "Content-type": "application/json"
+        }
         var insertObj = {
             fname:this.state.fname,
             email:this.state.email,
-            is_admin: this.state.is_admin == '1' ? true: false,
-            token: sessionStorage.getItem('usersToken')
+            is_admin: this.state.is_admin == '1' ? true: false
         }
 
         if(this.state.id){
+            // console.log('inside')
+            // console.log(insertObj)
                 //update
-                axios.put(`http://localhost:4000/api/v1/users/${this.state.id}`,insertObj)
+                axios.put(`http://localhost:4000/api/v1/users/${this.state.id}`,insertObj, headers)
                 .then(users => {
-                    console.log(users.data)
+                    // console.log(users.data)
                     if(users.data.success){
                         // NotificationManager.success(users.data.msg,'Success');
                         this.setState({
@@ -135,10 +141,7 @@ class AddEmployee extends Component {
     }
 
     render(){
-
-        // if(this.state.isRedirectReqd){
-        //     return <Redirect to={'/users/create'}/>
-        // }
+        
         return (
             <div className="container">
                 <div>
@@ -154,9 +157,9 @@ class AddEmployee extends Component {
                     <label  className="mr-sm-2">Name:&nbsp;<span className="mandatory">*</span></label>
                     <input type="text" className="form-control mb-2 mr-sm-2" name="fname" id="fname" onChange={this.changeHandler} value={this.state.fname} required/>
                     <div className="invalid-feedback">Please fill out this field.</div>
-                    <div id="pass" style={{display: this.state.id ? 'none':''}}>
+                    <div id="pass" style={{display: (this.state.id && sessionStorage.getItem('userData') != null) ? 'none':''}}>
                         <label  className="mr-sm-2">Password:&nbsp;<span className="mandatory">*</span></label>
-                        <input type="password" className="form-control mb-2 mr-sm-2" name="password" id="password" onChange={this.changeHandler} value={this.state.password} required/>
+                        <input type="password" className="form-control mb-2 mr-sm-2" name="password" id="password" onChange={this.changeHandler} value={this.state.password}/>
                     </div>
                     
                     <div className="form-group">

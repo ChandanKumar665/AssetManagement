@@ -15,26 +15,21 @@ const User = require('../../../models/User');
 router.post('/',(req,res) => {
     const email = req.body.email;
     const password = req.body.password;
-    // console.log(email)
-    // console.log(password)
+
     if(email ==  undefined || password == undefined){
         res.status(400).json({data:null,success:false,msg:'please fill all the fields.'})
     }
 
     User.findOne({email}).then(user => {
-        // console.log('111111111')
-        console.log(user)
-        try {
             if(!user){
                 res.status(400).json({data:email,success:false,msg:'User does not exist.'})
             }
-
-            //validate password    
-            bcrypt.compare(password, user.password)
+            try {
+                //validate password    
+                bcrypt.compare(password, user.password)
                 .then(isMatched => {
                     if(!isMatched){
-                        // console.log(333333333333333)
-                        res.json({data:null,success:false,msg:'invalid password'})
+                        res.status(400).json({data:null,success:false,msg:'invalid password'})
                     } else {
                         jwt.sign(
                             {id:user.id},
@@ -55,13 +50,13 @@ router.post('/',(req,res) => {
                             }
                         )
                     }       
-                }).catch(err => res.json({data:null,success:false,msg:err}))
-        } catch (error) {
-            // console.log('mmmmmmmmmm');
-            console.log(error)
-        }
+                }).catch(err => res.status(500).json({data:null,success:false,msg:err}))
+            } catch (error) {
+                console.log(error)
+            }
+            
     }).catch(err => {
-        res.json({data:null,success:false,msg:err})
+        res.status(500).json({data:null,success:false,msg:err})
     })
 })
 
