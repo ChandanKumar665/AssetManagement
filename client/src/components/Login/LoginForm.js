@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MDBContainer, MDBRow,MDBModalFooter, MDBCard, MDBCardBody, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBAlert, MDBCard, MDBCardBody, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
 import 'mdbreact/dist/css/mdb.css';
 import axios from 'axios';
 import style from '../Style/Index.css';
@@ -28,7 +28,7 @@ export default class LoginForm extends Component {
          e.preventDefault()
      }
 
-     isValid = (formData = {}) => {
+    isValid = (formData = {}) => {
         if(!formData)
             return {msg:'Please fill all the fields.',success:false}
         else if(!formData.email){
@@ -36,8 +36,8 @@ export default class LoginForm extends Component {
         }else if(!formData.password) {
             return {msg:'Please enter password.',success:false}
         }   
-        return true
-     }
+        return {msg:'all set.',success:true}
+    }
 
      formSubmit = (e) => {
         e.preventDefault()
@@ -56,7 +56,6 @@ export default class LoginForm extends Component {
             return false
         }
                 
-
             axios.post('http://localhost:4000/api/v1/auth',loginObj)
             .then(response => {
                 if(response.data.success){
@@ -92,9 +91,10 @@ export default class LoginForm extends Component {
     return (
         
         <MDBContainer>
-            <div className="alert alert-danger alert-dismissible" style = {{display: this.state.error != null ?'':'none'}}>
-                <button type="button" className="close" data-dismiss="alert">&times;</button>
-                <strong>Oops!</strong> {this.state.error}
+            <div style= {{display: this.state.error != null ?'':'none'}}>
+                <MDBAlert color="danger" dismiss>
+                    <strong>Oops!</strong> {this.state.error}.
+                </MDBAlert>
             </div>
             <MDBRow>
                 <MDBCol md="12">

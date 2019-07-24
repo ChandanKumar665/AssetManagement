@@ -45,7 +45,7 @@ router.post('/', (req,res) => {
     })
 
     if(req.body.fname == undefined || req.body.email ==  undefined || req.body.password == undefined){
-        res.json({data:null,success:false,msg:'please fill all the fields.'})
+        res.status(400).json({data:null,success:false,msg:'please fill all the fields.'})
     }
 
     User.findOne({email:req.body.email}).then(users => {
@@ -84,9 +84,6 @@ router.post('/', (req,res) => {
                         });    
                     })
                 })
-
-
-                
             }
     }).catch(err => {
         res.json({data:null,success:false,msg:err})
