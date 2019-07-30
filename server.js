@@ -37,8 +37,3 @@ server.listen(port,() => console.log(`server is started at the ${port}`));
 // fs.open('index.txt','w',function(err,file){
 //     console.log(file);
 // })
-// for(var i=0;i<5;i++){
-//     setTimeout(function(){
-//         console.log(i)
-//     },0)
-// }

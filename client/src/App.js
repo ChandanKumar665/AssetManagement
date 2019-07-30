@@ -12,16 +12,19 @@ import AssetTypeList from './components/Assets/AssetTypeList';
 import AssetTypeCeate from './components/Assets/AssetTypeCeate';
 import AssetCreate from './components/Assets/AssetCreate';
 import LoginForm from './components/Login/LoginForm';
-import TopNavBar from './components/Header/TopNavBar';
+// import TopNavBar from './components/Header/TopNavBar';
+import Logout from './components/Login/Logout';
+import Footer from './components/Footer/Footer';
 
 function App() {
   return (
     <div className="App container">
           
           <Router>
-              <TopNavBar/><p></p>
+              
               <Switch>
                 <Route exact path="/login" component={LoginForm}></Route>
+                <Route exact path="/logout" component={Logout}></Route>
                 <Route exact path="/users" component={EmployeeList}></Route>
                 <Route exact path="/users/create" component={AddEmployee}></Route>
                 <Route exact path="/users/delete" component={Delete}></Route>
@@ -31,6 +34,7 @@ function App() {
                 <Route exact path="/assets/assettype" component={AssetTypeList}></Route>
                 <Route exact path="/assets/assettype/create" component={AssetTypeCeate}></Route>
               </Switch>
+              <Footer/>
           </Router>
     </div>
     

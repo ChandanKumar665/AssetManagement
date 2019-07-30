@@ -49,7 +49,6 @@ router.post('/', (req,res) => {
     }
 
     User.findOne({email:req.body.email}).then(users => {
-        
             if(users){
                 res.status(400).json({data:users.email,success:false,msg:'Email is already exist.'})
             }else{
@@ -80,13 +79,13 @@ router.post('/', (req,res) => {
                                }
                                )
                         }).catch(err => {
-                            res.json({data:null,success:false,msg:err})
+                            res.status(400).json({data:null,success:false,msg:err})
                         });    
                     })
                 })
             }
     }).catch(err => {
-        res.json({data:null,success:false,msg:err})
+        res.status(400).json({data:null,success:false,msg:err})
     })
     
 })
@@ -106,30 +105,28 @@ router.put('/:id', auth, (req,res) => {
         //checking email
         if(newData.email != user.email){
             User.findOne({email:newData.email}).then(checkUser => {
-                // console.log(checkUser)
                 if(checkUser){
-                    res.json({data:checkUser.email,success:false,msg:'Email is already exist.'})
+                    res.status(400).json({data:checkUser.email,success:false,msg:'Email is already exist.'})
                 }else{
-                    // console.log(newData)
                     User.findByIdAndUpdate(id,newData,{new:true}).select('-password').then(result => {
-                        res.json({data:result,success:true,msg:'Data updated successfully.'})
+                        res.status(201).json({data:result,success:true,msg:'Data updated successfully.'})
                     }).catch(err => {
-                                res.json({data:null,success:false,msg:err})
+                                res.status(400).json({data:null,success:false,msg:err})
                         })
                 }
             }).catch(err => {
-                res.json({data:null,success:false,msg:err})
+                res.status(400).json({data:null,success:false,msg:err})
             })
-        }else{
-            User.findByIdAndUpdate(id,newData,{new:true}).then(result => {
-                res.json({data:result,success:true,msg:'Data updated successfully.'})
-            }).catch(err => {
-                        res.json({data:null,success:false,msg:err})
+        } else {
+                User.findByIdAndUpdate(id,newData,{new:true}).then(result => {
+                    res.status(201).json({data:result,success:true,msg:'Data updated successfully.'})
+                }).catch(err => {
+                    res.status(400).json({data:null,success:false,msg:err})
                 })
-        }
+            }
     }).catch(err => {
-                res.json({data:null,success:false,msg:err})
-        })
+        res.status(400).json({data:null,success:false,msg:err})
+    })
 })
 
 //@route DELETE api/users/:id

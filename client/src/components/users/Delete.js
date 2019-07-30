@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
-import {Alert} from 'reactstrap'
+import { MDBContainer, MDBRow, MDBCard, MDBCardBody, MDBCol, MDBInput, MDBBtn} from 'mdbreact';
 import axios from 'axios'
 import { Redirect } from 'react-router';
+import { NotificationManager,NotificationContainer} from 'react-notifications'
+import 'react-notifications/lib/notifications.css';
+import TopNavBar from '../Header/TopNavBar';
+import {Link} from 'react-router-dom';
 
 class Delete extends Component {
     constructor(props){
@@ -9,6 +13,7 @@ class Delete extends Component {
         this.state = {
             color:'',
             isOpen:false,
+            res_msg:'something went wrong',
             id: props.location.state === undefined ? '' : props.location.state.id
         }
         this.onDismiss = this.onDismiss.bind(this)
@@ -21,9 +26,14 @@ class Delete extends Component {
     }
 
     componentDidMount = () => {
-        if(this.state.id){
+        if(this.state.id && sessionStorage.getItem('usersToken') != null){
             const id = this.state.id
-            axios.delete(`http://localhost:4000/api/v1/users/${id}`)
+
+            // setting up access token in request header
+            var headers = {
+                headers: {'x-auth-token': sessionStorage.getItem('usersToken')}
+            } 
+            axios.delete(`http://localhost:4000/api/v1/users/${id}`,headers)
             .then(response => {
                 // console.log(response)
                 if(response.data.success){
@@ -33,7 +43,8 @@ class Delete extends Component {
                         res_msg:response.data.msg
                     })
                     this.props.history.push('/users')
-                }else{
+                     NotificationManager.success(response.data.msg,'Success');
+            } else {
                     this.setState({
                         color:'danger',
                         res_msg:response.data.msg,
@@ -41,25 +52,62 @@ class Delete extends Component {
                     })
                 }
                 
-        }).catch(err => {
-            console.log(err)
-        })
-        }else{
-            this.setState({
-                color:'danger',
-                isOpen:true,
-                res_msg:'something went wrong.'
+            }).catch(err => {
+                // console.log(err.response)
+                this.props.history.push('/users')
+                NotificationManager.error(err.response.data.msg,'Error');
+                
             })
-        }
+        } else {
+                if(sessionStorage.getItem('usersToken') == null || sessionStorage.getItem('usersToken') == ''){
+                    //user is not logged in
+                    // this.props.history.push('/login')
+                    NotificationManager.info('Please login to continue','Info');
+                }
+                else if(!this.state.id){
+                    //  user has accessed invalid link
+                    // this.props.history.push('/users')
+                    NotificationManager.warning('You have accessed unauthorized link.', 'Warning');
+                } 
+            }
     }
 
   render() {
     return (
-      <div className="container">
-        <Alert color={this.state.color} isOpen={this.state.isOpen} toggle={this.onDismiss} fade={true}>
-                        {this.state.res_msg}
-        </Alert>
-      </div>
+        <> 
+        <MDBContainer>
+            <TopNavBar/><p></p>
+            <MDBRow>
+                <MDBCol md="12">
+                    <MDBCard>
+                        <MDBCardBody>
+                            <h3>Sorry!!! Please Try again!!</h3>
+                            <h4>This error has occured for one of the following reasons :</h4>
+                            <ul>
+                                <li>
+                                    1.	You have tried to get direct URL access.
+                                </li>
+                                <li>
+                                    2.	You have used Back/Forward/Refresh button of your Browser.
+                                </li>
+                                <li>
+                                    3.	You have double clicked on any options/buttons.
+                                </li>
+                                <li>
+                                    4.	You have kept the browser window idle for a long time.
+                                </li>
+                            </ul>
+                            
+                            <div className="tc" style={{display: (sessionStorage.getItem('usersToken') != null)?'none':''}}>
+                                <Link to='/login' className="btn btn-primary">Click here to login.</Link>
+                            </div>
+                        </MDBCardBody>
+                    </MDBCard>
+                </MDBCol>
+            </MDBRow>
+        </MDBContainer>
+        <NotificationContainer/>
+      </>
     )
   }
 }

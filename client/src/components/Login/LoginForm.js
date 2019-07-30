@@ -4,11 +4,14 @@ import 'mdbreact/dist/css/mdb.css';
 import axios from 'axios';
 import style from '../Style/Index.css';
 import { Redirect,Link } from 'react-router-dom';
-// import TopNavBar from './components/Header/TopNavBar';
+import TopNavBar from '../Header/TopNavBar';
+import { NotificationManager,NotificationContainer } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
+
 
 export default class LoginForm extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             email:'',
             password:'',
@@ -29,11 +32,16 @@ export default class LoginForm extends Component {
      }
 
     isValid = (formData = {}) => {
-        if(!formData)
+        if(!formData){
+            NotificationManager.info('Please fill all the fields.', 'Info');
             return {msg:'Please fill all the fields.',success:false}
+            
+        } 
         else if(!formData.email){
+            NotificationManager.error('Please enter email.', 'Error',2000);
             return {msg:'Please enter email.',success:false}
         }else if(!formData.password) {
+            NotificationManager.error('Please enter password.', 'Error',2000);
             return {msg:'Please enter password.',success:false}
         }   
         return {msg:'all set.',success:true}
@@ -59,7 +67,6 @@ export default class LoginForm extends Component {
             axios.post('http://localhost:4000/api/v1/auth',loginObj)
             .then(response => {
                 if(response.data.success){
-                    // NotificationManager.success(users.data.msg,'Success');
                     //setting session storage
                     var user = response.data.user;
                     sessionStorage.setItem('userData',JSON.stringify(user))
@@ -67,15 +74,14 @@ export default class LoginForm extends Component {
                     this.setState({
                         isRedirectReqd: true
                     })
-                    
+                    NotificationManager.success('Login Success','Success');
                 }else{
                     console.log("Login error")
+                    NotificationManager.error('Login Error','Error');
                 }  
             }).catch(err => {
                 // console.log(err.response)
-                this.setState({
-                    error:err.response.data.msg
-                })
+                NotificationManager.error(err.response.data.msg,'Error');
             }) 
     }
     
@@ -89,13 +95,15 @@ export default class LoginForm extends Component {
         return <Redirect to={'/users'}/>
     }
     return (
-        
+
+        <>
         <MDBContainer>
-            <div style= {{display: this.state.error != null ?'':'none'}}>
+        <TopNavBar/><p></p>
+            {/* <div style= {{display: this.state.error != null ?'':'none'}}>
                 <MDBAlert color="danger" dismiss>
                     <strong>Oops!</strong> {this.state.error}.
                 </MDBAlert>
-            </div>
+            </div> */}
             <MDBRow>
                 <MDBCol md="12">
                     <MDBCard>
@@ -140,7 +148,9 @@ export default class LoginForm extends Component {
                     </MDBCard>
                 </MDBCol>
             </MDBRow>
-        </MDBContainer>    
+        </MDBContainer>
+        <NotificationContainer/>
+        </>  
     )
   }
 }

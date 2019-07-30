@@ -6,8 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Table } from 'reactstrap';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {Alert} from 'reactstrap';
+import {MDBDataTable } from 'mdbreact';
 import style from '../Style/Index.css';
 import 'font-awesome/css/font-awesome.min.css';
+import TopNavBar from '../Header/TopNavBar';
+import { NotificationManager,NotificationContainer } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 class EmployeeList extends Component{
     constructor(props){
@@ -27,7 +31,7 @@ class EmployeeList extends Component{
         }
         this.toggle = this.toggle.bind(this);
         this.onDismiss = this.onDismiss.bind(this);
-        this.logout = this.logout.bind(this);
+        this.dataTablePage = this.dataTablePage.bind(this);
     }
 
 
@@ -42,24 +46,10 @@ class EmployeeList extends Component{
 
     toggle = (e) => {
         e.preventDefault()
-        // console.log(e.target.id)
         this.setState({
             isOpen:!this.state.isOpen,
             name: e.target.name,
             id:e.target.id
-        })
-    }
-
-    logout = () => {
-        sessionStorage.setItem('userData',null);
-        sessionStorage.clear();
-        this.setState({
-            isRedirectReqd:true,
-            name:null,
-            globalName:null,
-            email:null,
-            id:null,
-            data:null
         })
     }
 
@@ -89,17 +79,66 @@ class EmployeeList extends Component{
         }  
     }
 
+    dataTablePage = (content) => {
+        const tabledata = {
+            columns:[
+                {
+                    label: 'Name',
+                    field: 'name',
+                    sort: 'asc',
+                    width: 150
+                  },
+                  {
+                    label: 'Email',
+                    field: 'email',
+                    sort: 'asc',
+                    width: 270
+                  },
+                  {
+                    label: 'DOJ',
+                    field: 'doj',
+                    sort: 'asc',
+                    width: 200
+                  },
+                  {
+                    label: 'Action',
+                    field: 'action',
+                    width: 50
+                  }
+            ],
+            rows:content
+        }
+    return tabledata    
+    }
+
     render(){
 
         if(this.state.isRedirectReqd){
             return <Redirect to={'/login'}/>
         }
 
-        let result = this.state.data;
-       
+        let result = [];
+        for(let item of this.state.data){
+            result.push({
+                        name:item.fname,
+                        email:item.email,
+                        doj:new Date(item.doj).toDateString(),
+                        action:<div className=""><Link className="fa fa-pencil-square-o" to={{pathname:`/users/create`,state:{id:item._id} } }>
+                                    </Link>
+                                    <span>&nbsp;<span>&#124;</span>&nbsp;</span>
+                                    <Link to='' className="fa fa-trash-o" name={item.fname} id={item._id} onClick={this.toggle}>
+                                    </Link>
+                                </div>
+                               
+                        }
+                    )
+        }     
+
             return (
               
+                <>
                 <div className="container">
+                <TopNavBar/><p></p>
                      <div>
                         <Alert color={this.state.color} isOpen={this.state.isShowing} toggle={this.onDismiss} >
                             {this.state.msg}
@@ -107,12 +146,6 @@ class EmployeeList extends Component{
                     </div>
                     <div>
                         <h3>Employee List</h3>
-                    </div>
-                    <br></br>
-                    <div>
-                        <Link to={{pathname:`/users/create` }} className="btn btn-primary">
-                            Add +
-                        </Link>
                     </div>
                     <br></br>
                     <div>
@@ -125,40 +158,14 @@ class EmployeeList extends Component{
                         <div className="col-lg-8">
                             <label>Welcome <b>{this.state.globalName}</b></label>
                         </div>
-                        <div className="col-lg-4">
-                            <button className="logout btn-danger" onClick={this.logout}>Logout</button>
-                        </div>
                     </div>
-                    <Table dark border="1">
-                        <thead>
-                            <tr className="stripe-dark">
-                                <th scope="row"  >Name</th>
-                                <th scope="row"  >Email</th>
-                                <th scope="row"  >DOJ</th>
-                                <th scope="row"  >Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                result.map((item,i) => 
-                                    <tr className="stripe-dark">
-                                        <td className="pa3" >{item.fname}</td>
-                                        <td className="pa3" >{item.email}</td>
-                                        <td className="pa3" >{new Date(item.doj).toDateString()}</td>
-                                        <td className="pa3">
-                                
-                                            <Link className="fa fa-pencil-square-o" to={{pathname:`/users/create`,state:{id:item._id} } }>
-                                            </Link>
-                                            &nbsp;<span>&#124;</span>&nbsp;  
-                                            <Link to='' className="fa fa-trash-o" name={item.fname} id={item._id} onClick={this.toggle}>
-                                            </Link>
-                                            
-                                        </td>
-                                    </tr>
-                                )
-                            }
-                        </tbody>
-                    </Table>
+                    
+                    <MDBDataTable
+                        striped
+                        bordered
+                        small
+                        data={this.dataTablePage(result)}
+                    />
                     <Modal isOpen={this.state.isOpen} toggle={this.toggle} className=''>
                         <ModalHeader toggle={this.toggle}>Confirm ?</ModalHeader>
                         <ModalBody>
@@ -172,7 +179,8 @@ class EmployeeList extends Component{
                         </ModalFooter>
                     </Modal>
                 </div>
-           
+                <NotificationContainer/>
+                </>
             )
     }
         
