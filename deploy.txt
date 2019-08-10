@@ -1,0 +1,28 @@
+Instruction to deploy a fullstack web app(Mongodb + Express + React + Node).
+We are going to use Heroku.
+
+Basically there are two way of deploying any web app to the server.
+1. Manually build the complete app and place it in "build" folder inside client folder(for react applications)
+   and later upload to the server.
+   for testing go inside client and execute "npm run build".
+
+2. Write a post script that will build the application and will put in "build" folder and will upload to the server.
+	"Building the application" is nothing, it's actually making a complied version file of our application which is not human readable and that file is going to be uploaded.
+
+NOTE: Inside the build folder a "index.html" file will be created automatically after compition of build process.
+	  And our main target is to execute the "index.html" file.
+
+Here we are going to use 2nd method.
+Steps:
+	1. go to the server.js file and write some scripts that will serve our static assets in production.
+	2. add few scripts //see server.js line 35.
+	3. write a post build script in node server's package.json file(not in client folder).
+	4. download heroku CLI software if don't have.
+	5. inside root directory execute following cmd:
+		a. heroku login
+		b. enter email and password
+		c. heroku create //creating an app
+		d. git add .
+		e. git commit -am 'version 1.0'
+		f. heroku git:remote -a secure-cove-37756 // get this from your heroku dashboard
+		g. git push heroku master
