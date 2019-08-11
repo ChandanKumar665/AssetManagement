@@ -13,6 +13,7 @@ export default class Logout extends Component {
 
     componentDidMount = () => {
         sessionStorage.setItem('userData',null);
+        sessionStorage.setItem('tempAdmin',null);
         sessionStorage.clear();
         this.setState({
             msg:'logged out successfully.',
@@ -22,7 +23,7 @@ export default class Logout extends Component {
 
   render() {
     if(this.state.isRedirectReqd){
-        return <Redirect to={'/users'}/>
+        return <Redirect to={'/'}/>
     }
 
     return (

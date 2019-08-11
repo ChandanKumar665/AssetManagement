@@ -25,6 +25,12 @@ export default class TopNavBar extends Component {
                 email:user_data.email,
                 isLoggedIn: true
             })
+        }else if(sessionStorage.getItem('tempAdmin')){
+            this.setState({
+                name:'tempadmin',
+                email:'admin@admin.com',
+                isLoggedIn: true
+            })
         }
     } 
 

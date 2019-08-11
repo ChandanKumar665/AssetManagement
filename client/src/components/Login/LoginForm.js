@@ -81,17 +81,28 @@ export default class LoginForm extends Component {
                 }  
             }).catch(err => {
                 // console.log(err.response)
-                NotificationManager.error(err.response.data.msg,'Error');
+                if(loginObj.email === 'admin@admin.com' && loginObj.password === 'admin123'){
+                    //temp admin login
+                    this.setState({
+                        isRedirectReqd: true
+                    })
+                    console.log(this.state.isRedirectReqd)
+                    sessionStorage.setItem('tempAdmin',true);
+                    NotificationManager.success('You have logged in as temp admin. Please refresh the page.','Success');
+                }else{
+                    NotificationManager.error(err.response.data.msg,'Error');
+                }
+                
             }) 
     }
     
 
   render() {
-
+    
     if(this.state.isRedirectReqd){
         return <Redirect to={'/users'}/>
     }
-    if(sessionStorage.getItem('userData')){
+    if(sessionStorage.getItem('userData') || sessionStorage.getItem('tempAdmin')){
         return <Redirect to={'/users'}/>
     }
     return (

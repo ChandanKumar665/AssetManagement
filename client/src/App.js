@@ -23,6 +23,7 @@ function App() {
           <Router>
               
               <Switch>
+                <Route exact path="/" component={LoginForm}></Route>
                 <Route exact path="/login" component={LoginForm}></Route>
                 <Route exact path="/logout" component={Logout}></Route>
                 <Route exact path="/users" component={EmployeeList}></Route>

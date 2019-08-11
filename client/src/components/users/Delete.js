@@ -14,7 +14,9 @@ class Delete extends Component {
             color:'',
             isOpen:false,
             res_msg:'something went wrong',
-            id: props.location.state === undefined ? '' : props.location.state.id
+            btn_text: (sessionStorage.getItem('tempAdmin'))?'':'Click here to login.',
+            id: props.location.state === undefined ? '' : props.location.state.id,
+            url: (sessionStorage.getItem('tempAdmin'))?'/users':'/login'
         }
         this.onDismiss = this.onDismiss.bind(this)
     }
@@ -59,7 +61,10 @@ class Delete extends Component {
                 
             })
         } else {
-                if(sessionStorage.getItem('usersToken') == null || sessionStorage.getItem('usersToken') == ''){
+                if(sessionStorage.getItem('tempAdmin')){
+                    NotificationManager.warning('Deletion is not allowed for temp Admin','Warning');
+                }
+                else if(sessionStorage.getItem('usersToken') == null || sessionStorage.getItem('usersToken') == ''){
                     //user is not logged in
                     // this.props.history.push('/login')
                     NotificationManager.info('Please login to continue','Info');
@@ -98,8 +103,8 @@ class Delete extends Component {
                                 </li>
                             </ul>
                             
-                            <div className="tc" style={{display: (sessionStorage.getItem('usersToken') != null)?'none':''}}>
-                                <Link to='/login' className="btn btn-primary">Click here to login.</Link>
+                            <div className="tc" style={{display: (sessionStorage.getItem('usersToken') != null || sessionStorage.getItem('tempAdmin'))?'none':''}}>
+                                <Link to={this.state.url} className="btn btn-primary">{this.state.btn_text}</Link>
                             </div>
                         </MDBCardBody>
                     </MDBCard>

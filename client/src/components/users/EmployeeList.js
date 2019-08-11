@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Table } from 'reactstrap';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {Alert} from 'reactstrap';
-import {MDBDataTable } from 'mdbreact';
+import {MDBDataTable,MDBIcon } from 'mdbreact';
 import style from '../Style/Index.css';
 import 'font-awesome/css/font-awesome.min.css';
 import TopNavBar from '../Header/TopNavBar';
@@ -73,9 +73,23 @@ class EmployeeList extends Component{
                 console.log(err)
             })
         }else{
-            this.setState({
-                isRedirectReqd:true
-            })
+            if(sessionStorage.getItem('tempAdmin')){
+                var temp = [
+                    {fname:'tom',email:'tom@yahoo.com',doj:'2019-09-01',_id:1001},
+                    {fname:'bob',email:'bob@yahoo.com',doj:'2019-09-01',_id:1002},
+                    {fname:'herry',email:'herry@yahoo.com',doj:'2019-09-01',_id:1003},
+                    {fname:'dicke',email:'dicke@yahoo.com',doj:'2019-09-01',_id:1004},
+                    {fname:'adam',email:'adam@yahoo.com',doj:'2019-09-01',_id:1005},
+                ]
+                this.setState({
+                    data:temp
+                }) 
+            }else{
+                this.setState({
+                    isRedirectReqd:true
+                })
+            }
+            
         }  
     }
 
@@ -123,11 +137,18 @@ class EmployeeList extends Component{
                         name:item.fname,
                         email:item.email,
                         doj:new Date(item.doj).toDateString(),
-                        action:<div className=""><Link className="fa fa-pencil-square-o" to={{pathname:`/users/create`,state:{id:item._id} } }>
+                        action: !sessionStorage.getItem('tempAdmin')?
+                        
+                                <div className="">
+                                    <Link className="fa fa-pencil-square-o" to={{pathname:`/users/create`,state:{id:item._id} } }>
                                     </Link>
                                     <span>&nbsp;<span>&#124;</span>&nbsp;</span>
                                     <Link to='' className="fa fa-trash-o" name={item.fname} id={item._id} onClick={this.toggle}>
                                     </Link>
+                                </div>
+                                :
+                                <div className="">
+                                    <MDBIcon icon="ban" />&nbsp;Action not allowed
                                 </div>
                                
                         }
