@@ -9,7 +9,7 @@ import {Alert} from 'reactstrap';
 import {MDBDataTable,MDBIcon } from 'mdbreact';
 import style from '../Style/Index.css';
 import 'font-awesome/css/font-awesome.min.css';
-import TopNavBar from '../Header/TopNavBar';
+import TopNavBar from '../header/TopNavBar';
 import { NotificationManager,NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 

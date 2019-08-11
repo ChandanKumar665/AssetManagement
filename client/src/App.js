@@ -1,20 +1,20 @@
 import React,{Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import AppNavbar from './components/Header/AppNavbar';
+// import AppNavbar from './components/header/AppNavbar';
 import EmployeeList from './components/users/EmployeeList';
 import {BrowserRouter as Router, Route,Switch} from 'react-router-dom';
 import AddEmployee from './components/users/AddEmployee';
 import Delete from './components/users/Delete';
 import Form from './components/Form';
-import AssetList from './components/Assets/AssetList';
-import AssetTypeList from './components/Assets/AssetTypeList';
-import AssetTypeCeate from './components/Assets/AssetTypeCeate';
-import AssetCreate from './components/Assets/AssetCreate';
-import LoginForm from './components/Login/LoginForm';
+import AssetList from './components/assets/AssetList';
+import AssetTypeList from './components/assets/AssetTypeList';
+import AssetTypeCeate from './components/assets/AssetTypeCeate';
+import AssetCreate from './components/assets/AssetCreate';
+import LoginForm from './components/login/LoginForm';
 // import TopNavBar from './components/Header/TopNavBar';
-import Logout from './components/Login/Logout';
-import Footer from './components/Footer/Footer';
+import Logout from './components/login/Logout';
+import Footer from './components/footer/Footer';
 
 function App() {
   return (

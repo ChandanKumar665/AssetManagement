@@ -4,7 +4,7 @@ import 'mdbreact/dist/css/mdb.css';
 import axios from 'axios';
 import style from '../Style/Index.css';
 import { Redirect,Link } from 'react-router-dom';
-import TopNavBar from '../Header/TopNavBar';
+import TopNavBar from '../header/TopNavBar';
 import { NotificationManager,NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 

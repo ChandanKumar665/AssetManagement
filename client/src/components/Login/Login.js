@@ -41,8 +41,7 @@ export default class Login extends Component {
         try {
             axios.post('http://localhost:4000/api/v1/auth',loginObj)
             .then(response => {
-                console.log(response);
-                console.log('000000000000000')
+                // console.log(response);
                 if(response.data.success){
                     // NotificationManager.success(users.data.msg,'Success');
                     //setting session storage
@@ -57,7 +56,6 @@ export default class Login extends Component {
                     console.log("Login error")
                 }  
             }).catch(err => {
-                console.log('111111111111111111')
                 console.log(err)
             })
         } catch (error) {

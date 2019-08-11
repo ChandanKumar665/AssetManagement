@@ -6,7 +6,7 @@ import { NotificationManager,NotificationContainer} from 'react-notifications'
 import 'react-notifications/lib/notifications.css';
 import {Alert} from 'reactstrap';
 import { Redirect,Link } from 'react-router-dom';
-import TopNavBar from '../Header/TopNavBar';
+import TopNavBar from '../header/TopNavBar';
 
 
 class AddEmployee extends Component {

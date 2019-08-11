@@ -4,7 +4,7 @@ import axios from 'axios'
 import { Redirect } from 'react-router';
 import { NotificationManager,NotificationContainer} from 'react-notifications'
 import 'react-notifications/lib/notifications.css';
-import TopNavBar from '../Header/TopNavBar';
+import TopNavBar from '../header/TopNavBar';
 import {Link} from 'react-router-dom';
 
 class Delete extends Component {

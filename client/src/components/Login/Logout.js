@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { MDBAlert} from 'mdbreact';
-import TopNavBar from '../Header/TopNavBar';
+import TopNavBar from '../header/TopNavBar';
 import {Redirect} from 'react-router-dom';
 export default class Logout extends Component {
     constructor(){
