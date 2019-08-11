@@ -2,10 +2,10 @@ import React,{Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import AppNavbar from './components/Header/AppNavbar';
-import EmployeeList from './components/Users/EmployeeList';
+import EmployeeList from './components/users/EmployeeList';
 import {BrowserRouter as Router, Route,Switch} from 'react-router-dom';
-import AddEmployee from './components/Users/AddEmployee';
-import Delete from './components/Users/Delete';
+import AddEmployee from './components/users/AddEmployee';
+import Delete from './components/users/Delete';
 import Form from './components/Form';
 import AssetList from './components/Assets/AssetList';
 import AssetTypeList from './components/Assets/AssetTypeList';
