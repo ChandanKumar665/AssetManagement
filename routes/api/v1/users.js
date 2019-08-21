@@ -11,7 +11,7 @@ const User = require('../../../models/User');
 //@route GET api/users
 //@desc  Get all users
 //@access Public
-router.get('/',(req,res) => {
+router.get('/', auth, (req,res) => {
     User.find().sort({createdAt:-1}).then(users => {
         res.json({data:users,success:true,msg:'success'})
     }).catch(err => {
@@ -22,7 +22,7 @@ router.get('/',(req,res) => {
 //@route GET api/users/:id
 //@desc  Get a single user
 //@access Public
-router.get('/:id',(req,res) => {
+router.get('/:id', auth, (req,res) => {
     var id = req.params.id;
     User.findById(id).then(users => {
         res.status(200).json({data:users,success:true,msg:'success'})

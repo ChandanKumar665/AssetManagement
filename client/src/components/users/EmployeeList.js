@@ -59,7 +59,12 @@ class EmployeeList extends Component{
             this.setState({
                 globalName:user_data.name
             })
-            axios.get('http://localhost:4000/api/v1/users')
+
+            //preparing auth token
+            var headers = {
+                headers: {'x-auth-token': sessionStorage.getItem('usersToken')}
+            }
+            axios.get('http://localhost:4000/api/v1/users', headers)
             .then(response => {
                 // console.log(response)
                 if(response.data.success){
