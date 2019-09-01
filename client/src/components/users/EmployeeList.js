@@ -7,9 +7,10 @@ import { Table } from 'reactstrap';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {Alert} from 'reactstrap';
 import {MDBDataTable,MDBIcon } from 'mdbreact';
-import style from '../Style/Index.css';
+// import style from '../Style/Index.css';
 import 'font-awesome/css/font-awesome.min.css';
 import TopNavBar from '../header/TopNavBar';
+// import SideNavBar from '../navigation/SideNavBar';
 import { NotificationManager,NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
@@ -165,6 +166,7 @@ class EmployeeList extends Component{
                 <>
                 <div className="container">
                 <TopNavBar/><p></p>
+                {/* <SideNavBar/> */}
                      <div>
                         <Alert color={this.state.color} isOpen={this.state.isShowing} toggle={this.onDismiss} >
                             {this.state.msg}

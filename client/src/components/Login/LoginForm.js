@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { MDBContainer, MDBRow, MDBAlert, MDBCard, MDBCardBody, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
 import 'mdbreact/dist/css/mdb.css';
 import axios from 'axios';
-import style from '../Style/Index.css';
+import style from '../style/style.css';
 import { Redirect,Link } from 'react-router-dom';
 import TopNavBar from '../header/TopNavBar';
 import { NotificationManager,NotificationContainer } from 'react-notifications';
@@ -22,6 +22,15 @@ export default class LoginForm extends Component {
         }
         this.changeHandler = this.changeHandler.bind(this);
         this.formSubmit = this.formSubmit.bind(this);
+    }
+
+    componentDidMount = () => {
+        var theme_color = localStorage.getItem('theme') == undefined ? 'default' : localStorage.getItem('theme');
+        var btn_color = localStorage.getItem('btn_color') == undefined ? 'btn btn-primary':localStorage.getItem('btn_color');
+        if(btn_color == 'btn btn-default'){
+            btn_color = 'btn btn-primary'
+        }
+        this.setState({theme:theme_color,btn_color:btn_color})
     }
 
     changeHandler = (e) => {
@@ -69,8 +78,9 @@ export default class LoginForm extends Component {
                 if(response.data.success){
                     //setting session storage
                     var user = response.data.user;
-                    sessionStorage.setItem('userData',JSON.stringify(user))
-                    sessionStorage.setItem('usersToken',response.data.token)
+                    sessionStorage.setItem('userData',JSON.stringify(user));
+                    sessionStorage.setItem('usersToken',response.data.token);
+                    // localStorage.setItem('theme','black');
                     this.setState({
                         isRedirectReqd: true
                     })
@@ -146,7 +156,7 @@ export default class LoginForm extends Component {
                                     />
                                 </div>
                                 <div className="text-center">
-                                    <MDBBtn color="primary" type="submit">Login</MDBBtn>
+                                    <MDBBtn color={this.state.btn_color} type="submit">Login</MDBBtn>
                                 </div>
                             </form>
     

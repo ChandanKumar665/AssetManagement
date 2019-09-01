@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import axios from 'axios';
 import { MDBContainer, MDBRow, MDBCard, MDBCardBody, MDBCol, MDBInput, MDBBtn} from 'mdbreact';
-import style from '../Style/Index.css';
+import style from '../style/style.css';
 import { NotificationManager,NotificationContainer} from 'react-notifications'
 import 'react-notifications/lib/notifications.css';
 import {Alert} from 'reactstrap';
@@ -12,6 +12,7 @@ import TopNavBar from '../header/TopNavBar';
 class AddEmployee extends Component {
     constructor(props){
         super(props);
+        console.log(props)
         this.state = {
             fname:'',
             email:'',
@@ -45,7 +46,10 @@ class AddEmployee extends Component {
     componentDidMount = () => {
         if(this.state.id && sessionStorage.getItem('userData') != null){
             //edit
-            axios.get(`http://localhost:4000/api/v1/users/${this.state.id}`)   
+            var headers = {
+                headers: {'x-auth-token': sessionStorage.getItem('usersToken')}
+            }
+            axios.get(`http://localhost:4000/api/v1/users/${this.state.id}`, headers)   
             .then(response => {
                 // console.log(response)
                 this.setState({
@@ -63,6 +67,12 @@ class AddEmployee extends Component {
             })
         }
         
+        var theme_color = localStorage.getItem('theme') == undefined ? 'default' : localStorage.getItem('theme');
+        var btn_color = localStorage.getItem('btn_color') == undefined ? 'btn btn-primary':localStorage.getItem('btn_color');
+        if(btn_color == 'btn btn-default'){
+            btn_color = 'btn btn-primary'
+        }
+        this.setState({theme:theme_color,btn_color:btn_color})
     }  
 
     changeIsAdmin = (e) => {
@@ -236,7 +246,7 @@ class AddEmployee extends Component {
                                 </div>
                                 <p></p>
                                 <div className="text-center">
-                                    <MDBBtn color="primary" type="submit">{this.state.btn_text}</MDBBtn>
+                                    <MDBBtn color={this.state.btn_color} type="submit">{this.state.btn_text}</MDBBtn>
                                 </div>
                             </form>
     

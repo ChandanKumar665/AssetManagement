@@ -23,7 +23,7 @@ export default class TopNavBar extends Component {
             this.setState({
                 name:user_data.name,
                 email:user_data.email,
-                isLoggedIn: true
+                isLoggedIn: true,
             })
         }else if(sessionStorage.getItem('tempAdmin')){
             this.setState({
@@ -32,12 +32,24 @@ export default class TopNavBar extends Component {
                 isLoggedIn: true
             })
         }
+        this.setState({
+            theme: localStorage.getItem('theme') !== undefined && localStorage.getItem('theme') !== 'default' 
+            ? localStorage.getItem('theme') : 'black'
+        })
     } 
 
     render() {
-    
+    // console.log(window.location.pathname.replace('/',''))
+    const path = window.location.pathname.replace('/','');
+    var active_settings = '';
+    var active_home = '';
+    if(path == 'settings'){
+        active_settings = 'active';
+    }else{
+        active_home = 'active';
+    }
     return (
-        <MDBNavbar color="black" dark expand="md">
+        <MDBNavbar color={this.state.theme} dark expand="md">
             <MDBNavbarBrand>
                 <strong className="white-text">AM</strong>
             </MDBNavbarBrand>
@@ -48,7 +60,7 @@ export default class TopNavBar extends Component {
                         <MDBNavLink to="/users">Home</MDBNavLink>
                     </MDBNavItem>
                     <MDBNavItem>
-                        <MDBNavLink to="#!">Features</MDBNavLink>
+                        <MDBNavLink to="/settings">Settings</MDBNavLink>
                     </MDBNavItem>
                     <MDBNavItem>
                         <MDBNavLink to="#!">Pricing</MDBNavLink>
@@ -80,7 +92,7 @@ export default class TopNavBar extends Component {
                         </MDBDropdownToggle>
                         <MDBDropdownMenu className="dropdown-default">
                             <MDBDropdownItem href={this.state.isLoggedIn?'#':'/home'}>{this.state.isLoggedIn?'Accounts':'Home'}</MDBDropdownItem>
-                            <MDBDropdownItem href="#!">Settings</MDBDropdownItem>
+                            <MDBDropdownItem href={this.state.isLoggedIn?'/settings':'/home'}>{this.state.isLoggedIn?'Settings':'About'}</MDBDropdownItem>
                             <MDBDropdownItem href={this.state.isLoggedIn?'/logout':'/login'}>{this.state.isLoggedIn?'Logout':'Login'}</MDBDropdownItem>
                         </MDBDropdownMenu>
                         </MDBDropdown>

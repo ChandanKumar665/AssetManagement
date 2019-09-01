@@ -2,8 +2,13 @@ import React from "react";
 import { MDBCol, MDBContainer, MDBRow, MDBFooter, MDBIcon} from "mdbreact";
 
 const FooterPage = () => {
+
+  var localtheme = localStorage.getItem('theme');
+  var theme =  localtheme !== undefined && localtheme !== 'default' ? localtheme : 'black';
+
+
   return (
-    <MDBFooter color="blue" className="font-small pt-4 mt-4">
+    <MDBFooter color={theme} className="font-small pt-4 mt-4">
       <MDBContainer fluid className="text-center text-md-left">
         <MDBRow>
           <MDBCol md="6">
@@ -17,13 +22,13 @@ const FooterPage = () => {
             <h5 className="title">Links</h5>
             <ul>
               <li className="list-unstyled">
-                <a href="#!">Link 1</a>
+                <a href="#!">Home</a>
               </li>
               <li className="list-unstyled">
-                <a href="#!">Link 2</a>
+                <a href="#!">About</a>
               </li>
               <li className="list-unstyled">
-                <a href="#!">Link 3</a>
+                <a href="#!">Contact</a>
               </li>
               <li className="list-unstyled">
               <MDBIcon fab icon="facebook-square" />
