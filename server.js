@@ -33,8 +33,8 @@ const PORT = process.env.PORT || 4000;
 // step 2
 //connect to mongo
 mongoose.connect(process.env.MONGODB_URI || db_config, {useNewUrlParser:true}).then(()=>{
-    console.log('connected')
-}).catch(err => console.log(err))
+    console.log('connected');
+}).catch(err => console.log(err));
 
 // step 3
 //serve static assets if it's in production
