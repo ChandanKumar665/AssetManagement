@@ -130,7 +130,7 @@ export default class LoginForm extends Component {
                     <MDBCard>
                         <MDBCardBody>
                             <form onSubmit={this.formSubmit}>
-                                <p className="h5 text-center mb-4">Sign in</p>
+                                <p className="h5 text-center mb-4">Sign in here</p>
                                 <div className="grey-text">
                                     <MDBInput
                                     label="Email"
