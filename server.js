@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const server = express();
 const cors = require('cors');
-const fs = require('fs');
 const config = require('config');
 const path = require('path');
 
@@ -21,11 +20,6 @@ server.use(cors());
 //db config
 const db_config = config.get('mongoURI');
 
-//connect to mongo
-mongoose.connect(db_config,{useNewUrlParser:true}).then(()=>{
-    console.log('connected')
-}).catch(err => console.log(err))
-
 // use routes
 server.use('/api/v1/users',users);
 server.use('/api/v1/auth',auth);
@@ -33,6 +27,16 @@ server.use('/api/v1/assettypes',assettypes);
 server.use('/api/v1/assets',assets);
 
 
+// step 1
+const PORT = process.env.PORT || 4000;
+
+// step 2
+//connect to mongo
+mongoose.connect(process.env.MONGODB_URI || db_config, {useNewUrlParser:true}).then(()=>{
+    console.log('connected')
+}).catch(err => console.log(err))
+
+// step 3
 //serve static assets if it's in production
 if(process.env.NODE_ENV === 'production'){
 	//set static folder
@@ -40,13 +44,9 @@ if(process.env.NODE_ENV === 'production'){
 	//checking the url host
 	// * means all are allowed
 	server.get('*',(req, res) => {
-		res.sendFile(path.resolve(__dirname,'client','build','index.html'));
+		res.sendFile(path.join(__dirname,'client','build','index.html')); //relative path
 	})
 
 }
-const port = process.env.PORT || 4000
 
-server.listen(port,() => console.log(`server is started at the ${port}`));
-// fs.open('index.txt','w',function(err,file){
-//     console.log(file);
-// })/^\+[0-9]{0,2}|0?\d{0,10}$/
+server.listen(PORT,() => console.log(`server is started at the ${PORT}`));

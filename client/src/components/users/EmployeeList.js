@@ -176,11 +176,11 @@ class EmployeeList extends Component{
                         <h3>Employee List</h3>
                     </div>
                     <br></br>
-                    <div>
+                    {/* <div>
                         <Link to={{pathname:`/assets`}}>
                             Show assets List
                         </Link>
-                    </div>
+                    </div> */}
                     <br></br>
                     <div className="row">
                         <div className="col-lg-8">
