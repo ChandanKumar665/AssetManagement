@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import style from '../Style/Index.css';
+import style from '../style/style.css';
 import { Redirect,Link } from 'react-router-dom';
 // import LoginForm from './LoginForm';
 
@@ -80,7 +80,7 @@ export default class Login extends Component {
         <div className="container">
             {/* <LoginForm/> */}
             <p></p>
-            {/* <div className="card">
+            <div className="card">
                 <form onSubmit={this.formSubmit} className="login_form">
                     <label  className="mr-sm-2">Email address:&nbsp;<span className="mandatory">*</span></label>
                     <input type="email" className="form-control mb-2 mr-sm-2" id="email" name="email" onChange={this.changeHandler} value={this.state.email} required/>
@@ -91,7 +91,7 @@ export default class Login extends Component {
                         <button type="submit" className="btn btn-primary mb-2">Login</button>
                     </div>   
                 </form>
-            </div>   */}
+            </div>  
             <div>
                 <Link to={{pathname:`/login`}}>
                     Home
