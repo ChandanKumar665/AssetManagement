@@ -73,7 +73,7 @@ export default class LoginForm extends Component {
             return false
         }
                 
-            axios.post('http://localhost:4000/api/v1/auth',loginObj)
+            axios.post('/api/v1/auth',loginObj)
             .then(response => {
                 NotificationManager.success('Login Success','Success');
                 return
