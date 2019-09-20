@@ -75,6 +75,8 @@ export default class LoginForm extends Component {
                 
             axios.post('http://localhost:4000/api/v1/auth',loginObj)
             .then(response => {
+                NotificationManager.success('Login Success','Success');
+                return
                 if(response.data.success){
                     //setting session storage
                     var user = response.data.user;

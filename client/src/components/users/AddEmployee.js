@@ -165,7 +165,7 @@ class AddEmployee extends Component {
             // create
             axios.post('http://localhost:4000/api/v1/users',insertObj)
             .then(users => {
-                console.log(users.data)
+                // console.log(users.data)
                 if(users.data.success){
                     this.props.history.push('/login')
                     NotificationManager.success('Account created successfully.','Success',5000);

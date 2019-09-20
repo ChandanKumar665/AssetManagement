@@ -43,7 +43,7 @@ router.post('/', (req,res) => {
         is_admin: req.body.is_admin ? true : false,
         password: req.body.password
     })
-
+    
     if(req.body.fname == undefined || req.body.email ==  undefined || req.body.password == undefined){
         res.status(400).json({data:null,success:false,msg:'please fill all the fields.'})
     }

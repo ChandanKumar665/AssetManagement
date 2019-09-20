@@ -16,6 +16,8 @@ router.post('/',(req,res) => {
     const email = req.body.email;
     const password = req.body.password;
 
+    res.status(200).json({success:true,msg:'testing'});
+
     if(email ==  undefined || password == undefined){
         res.status(400).json({data:null,success:false,msg:'please fill all the fields.'})
     }
