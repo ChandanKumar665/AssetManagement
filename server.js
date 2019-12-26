@@ -47,6 +47,15 @@ if(process.env.NODE_ENV === 'production'){
 		res.sendFile(path.join(__dirname,'client','build','index.html')); //relative path
 	})
 
+}else{
+//aws
+/set static folder
+	server.use(express.static('client/build'));
+	//checking the url host
+	// * means all are allowed
+	server.get('*',(req, res) => {
+		res.sendFile(path.join(__dirname,'client','build','index.html')); //relative path
+	})
 }
 
 server.listen(PORT,() => console.log(`server is started at the ${PORT}`));
